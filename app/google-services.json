@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "12227432976",
+    "firebase_url": "https://milost-235b6.firebaseio.com",
+    "project_id": "milost-235b6",
+    "storage_bucket": "milost-235b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12227432976:android:86a18d9a5b293556d6f095",
+        "android_client_info": {
+          "package_name": "com.example.milost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12227432976-bdu9e7v08gnlctnj3mlgek4cmbbsmv6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.milost",
+            "certificate_hash": "bd4f1e4be68e2cd9cf2f7d509bb61f22fcd34599"
+          }
+        },
+        {
+          "client_id": "12227432976-6dsvqsdnbnqepnptjovige5cfagp6nge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD7xQxxwQkLY2DR2jCHz3jK5HLCYdRVbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12227432976-6dsvqsdnbnqepnptjovige5cfagp6nge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

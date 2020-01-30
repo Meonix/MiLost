@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MiLost</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="alarm">Alarm</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+</resources>
