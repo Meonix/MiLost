@@ -13,7 +13,6 @@ import com.google.firebase.database.*
 public class Service :Service(){
 
     private var medialayer: MediaPlayer? = null
-    private var audioManager: AudioManager? = null
     private var NoitificationRef: DatabaseReference? = null
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -30,14 +29,13 @@ public class Service :Service(){
                         medialayer!!.isLooping = false
                         medialayer!!.stop()
                     }
-                    audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                     medialayer!!.isLooping = true
                     medialayer!!.start()
 //        val mainHandler = Handler(Looper.getMainLooper())
 
 //        mainHandler.post(object : Runnable {
 //            override fun run() {
-                    audioManager!!.setStreamVolume(AudioManager.STREAM_MUSIC, 100, 0)
+
 //                mainHandler.postDelayed(this, 2000)
 //            }
 //        })

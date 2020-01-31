@@ -7,9 +7,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.Build
-import android.os.IBinder
-import android.os.PowerManager
+import android.net.Uri
+import android.os.*
 import android.provider.Settings
 import android.widget.Toast
 import java.text.SimpleDateFormat
@@ -25,8 +24,9 @@ class EndlessService : Service() {
     private var isServiceStarted = false
     private var medialayer: MediaPlayer? = null
     private var audioManager: AudioManager? = null
+    private var Music: DatabaseReference? = null
     private var NoitificationRef: DatabaseReference? = null
-
+    private var UriAudio: Uri? = null
     override fun onBind(intent: Intent): IBinder? {
 //        log("Some component want to bind with the service")
         // We don't provide binding, so return null
@@ -50,7 +50,7 @@ class EndlessService : Service() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     if(p0.value=="stop"){
-                        stopService()
+                        medialayer!!.stop()
                     }
                 }
 
@@ -102,28 +102,48 @@ class EndlessService : Service() {
             }
 //            log("End of the loop for the service")
         }
+        Music = FirebaseDatabase.getInstance().reference.child("Music").child("song")
 
         NoitificationRef = FirebaseDatabase.getInstance().reference.child("Notifications").child("Mi")
+
         NoitificationRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.value=="alarm"){
-                    medialayer = MediaPlayer.create(this@EndlessService, Settings.System.DEFAULT_ALARM_ALERT_URI)
-                    if(medialayer!!.isPlaying)
-                    {
-                        medialayer!!.isLooping = false
-                        medialayer!!.stop()
-                    }
-                    audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                    medialayer!!.isLooping = true
-                    medialayer!!.start()
-//        val mainHandler = Handler(Looper.getMainLooper())
+                    Music!!.addValueEventListener(object :ValueEventListener{
+                        override fun onCancelled(dataSnapshot: DatabaseError?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
 
-//        mainHandler.post(object : Runnable {
-//            override fun run() {
-                    audioManager!!.setStreamVolume(AudioManager.STREAM_MUSIC, 100, 0)
-//                mainHandler.postDelayed(this, 2000)
-//            }
-//        })
+                        override fun onDataChange(dataSnapshot : DataSnapshot?) {
+                            if(dataSnapshot!!.key=="song")
+                            {
+                                medialayer = MediaPlayer()
+                                medialayer!!.setDataSource(dataSnapshot.value.toString())
+                                medialayer!!.prepare()
+                                if(medialayer!!.isPlaying)
+
+                                {
+                                    medialayer!!.isLooping = false
+                                    medialayer!!.stop()
+                                }
+                                audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                                medialayer!!.isLooping = true
+                                medialayer!!.start()
+                                val mainHandler = Handler(Looper.getMainLooper())
+
+                                mainHandler.post(object : Runnable {
+                                    override fun run() {
+                                        audioManager!!.setStreamVolume(AudioManager
+                                            .STREAM_MUSIC, 100, 0)
+                                        mainHandler.postDelayed(this, 2000)
+                                    }
+                                })
+                            }
+                        }
+
+                    })
+//                    medialayer = MediaPlayer.create(this@EndlessService, Settings.System.DEFAULT_ALARM_ALERT_URI)
+
                 }
             }
 
